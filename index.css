@@ -1,0 +1,135 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      background: #0f1720;
+      color: #e0f0ff;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .chart-container {
+      background: #15212d;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    #chart {
+      width: 100%;
+      height: 600px;
+    }
+    button {
+      background: #1e3c60;
+      color: #bbdefb;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2a5298;
+    }
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #8da0b3;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+    /* Add to your existing CSS */
+.indicator-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(21, 33, 45, 0.9);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(56, 78, 112, 0.5);
+  z-index: 100;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.indicator-label {
+  font-weight: bold;
+  width: 50px;
+}
+
+.indicator-value {
+  width: 60px;
+  text-align: center;
+  font-family: monospace;
+}
+
+.indicator-bar {
+  width: 200px;
+  height: 20px;
+  background: #15212d;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.indicator-progress {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+.pair-selector {
+  margin-bottom: 10px;
+}
+
+.pair-selector select {
+  background: #1e3c60;
+  color: #bbdefb;
+  border: 1px solid rgba(56, 78, 112, 0.5);
+  padding: 5px 10px;
+  border-radius: 4px;
+  width: 100%;
+}/* Add to index.css */
+.rsi-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 18px;
+  justify-content: center;
+}
+.rsi-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #15212d;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1.1em;
+}
+.rsi-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+}
