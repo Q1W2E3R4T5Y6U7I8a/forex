@@ -1,14 +1,18 @@
 {
+  "homepage": "https://Q1W2E3R4T5Y6U7I8a.github.io/forex",
+
   "dependencies": {
     "date-fns": "^4.1.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "ghpages": "^0.0.10"
   },
   "name": "forex",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "deploy": "gh-pages -d public"
   },
   "keywords": [],
   "author": "",
