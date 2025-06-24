@@ -14,7 +14,18 @@ app.get('/api/data', (req, res) => {
     const pair = req.query.pair;
     if (!pair) return res.status(400).json({ error: 'Pair parameter required' });
     
-    const raw = fs.readFileSync(path.join(__dirname, 'data', `${pair}.csv`), 'utf-8');
+    const filePath = path.join(__dirname, 'data', `${pair}.csv`);
+
+    if (!fs.existsSync(filePath)) {
+      console.warn(`File not found: ${filePath}`);
+      return res.json({ 
+        candles: [],
+        indicators: { rsi: null },
+        warning: `Data file not found for ${pair}`
+      });
+    }
+
+    const raw = fs.readFileSync(filePath, 'utf-8');
     const lines = raw.trim().split('\n').slice(1);
 
     const candles = lines.map(line => {
@@ -33,10 +44,15 @@ app.get('/api/data', (req, res) => {
       };
     }).filter(Boolean).reverse();
 
-    // Calculate RSI for the most recent period
-    const closePrices = candles.map(c => c.c);
-    const currentRSI = calculateRSI(closePrices);
-    const rsiColor = currentRSI ? getRSIColor(currentRSI) : null;
+    // Calculate RSI only if we have data
+    let currentRSI = null;
+    let rsiColor = null;
+    
+    if (candles.length > 0) {
+      const closePrices = candles.map(c => c.c);
+      currentRSI = calculateRSI(closePrices);
+      rsiColor = currentRSI ? getRSIColor(currentRSI) : null;
+    }
     
     res.json({ 
       candles,
@@ -49,7 +65,10 @@ app.get('/api/data', (req, res) => {
     });
   } catch (error) {
     console.error('Error loading data:', error);
-    res.status(500).json({ error: 'Failed to load data' });
+    res.status(500).json({ 
+      error: 'Failed to load data',
+      details: error.message 
+    });
   }
 });
 
