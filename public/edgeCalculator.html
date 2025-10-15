@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory of possibilities</title>
+    <link rel="icon" href="./favicon.jpg" type="image/jpg">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@4.1.1"></script>
+
+
+  <link rel="stylesheet" href="./index.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #0d5b88, #1a2a6c);
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        
+        .calculator {
+            display: grid;
+            grid-template-columns: 2fr 2fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-section, .results-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        .chart-container {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+            <nav class="nav">
+                <a href="./main.html" class="nav-link active">Main</a>
+                <a href="./index.html" class="nav-link">Forex</a>
+                <a href="./edgeCalculator.html" class="nav-link">EV</a>
+                <a href="./cbRates.html" class="nav-link">CB Rates</a>
+                <a href="./effectivityOfAds.html" class="nav-link">ROAS/CPA</a>
+                <a href="./realEstate.html" class="nav-link">Real estate</a>
+                <a href="./polymarket.html" class="nav-link">Polymarket</a>
+            </nav>
+        </div>
+
+    <div class="container">
+        
+        <div class="calculator">
+            <div class="input-section">
+                <h2 class="section-title">Input Parameters</h2>
+                <div class="input-group">
+                    <label for="numBets">Number of Bets Made (b)</label>
+                    <input type="number" id="numBets" min="100" value="1000">
+                </div>
+                <div class="input-group">
+                    <label for="betAmount">Bet Amount (v) - Win/Loss Amount ($)</label>
+                    <input type="number" id="betAmount" min="0.01" step="0.01" value="1">
+                </div>
+                <div class="input-group">
+                    <label for="outcome">Net Result (r) - Profit/Loss ($)</label>
+                    <input type="number" id="outcome" step="0.01" value="50">
+                </div>
+                <button id="calculateBtn">Calculate Probability & EV</button><div class="chart-container">
+            <canvas id="probabilityChart"></canvas>
+        </div>
+            </div>
+            
+            <div class="results-section">
+                <h2 class="section-title">Analysis Results</h2>
+                <div class="metric-card">
+                    <div class="metric-label">Estimated Win Probability (p̂)</div>
+                    <div id="winProb" class="metric-value">50.0%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Estimated EV per Bet</div>
+                    <div id="edgePerBet" class="metric-value">$0.00</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Standard Error (SE)</div>
+                    <div id="stdError" class="metric-value">0.000</div>
+                </div>
+                
+                <h3 class="section-title">Confidence Intervals</h3>
+                <div class="metric-card">
+                    <div class="metric-label">95% Confidence Interval</div>
+                    <div id="ci95" class="metric-value">47.0% - 53.0%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">99% Confidence Interval</div>
+                    <div id="ci99" class="metric-value">46.0% - 54.0%</div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+
+<p><strong>1. Estimate EV</strong></p>
+<p>
+Let:<br>
+&emsp;p = chance to win<br>
+&emsp;q = 1 - p = chance to lose<br>
+&emsp;n = number of bets (if n &lt; 100, discard the sample)<br>
+&emsp;r = result (net profit/loss)
+</p>
+
+<p>
+Assume each bet is $1:<br>
+Win: +$1<br>
+Lose: -$1
+</p>
+
+<p>
+EV per bet = (1 × p) + (-1 × q) = p - q = p - (1 - p) = <strong>2p - 1</strong>
+</p>
+
+<hr>
+
+<p><strong>2. Estimate EV Probability (Central Limit Theorem)</strong></p>
+<p>
+Let:<br>
+&emsp;wr = winrate<br>
+&emsp;lr = looserate = 1 - wr<br>
+&emsp;b = number of bets
+</p>
+
+<p>
+Standard Error (SE):<br>
+SE = sqrt( p(1 - p) / b ) ≈ <strong>sqrt(wr × lr / b)</strong>
+</p>
+
+<p>
+Or if b = 100:<br>
+SE = <strong>sqrt(wr × lr / 100)</strong>
+</p>
+
+<p>*Though bet, winning and loosing must be equal to work well with eqution, if u bet 5, chance to win 15</p>
+</h3>
+
+    <script>
+        // DOM elements
+        const numBetsInput = document.getElementById('numBets');
+        const betAmountInput = document.getElementById('betAmount');
+        const outcomeInput = document.getElementById('outcome');
+        const calculateBtn = document.getElementById('calculateBtn');
+        
+        // Result elements
+        const winProbEl = document.getElementById('winProb');
+        const edgePerBetEl = document.getElementById('edgePerBet');
+        const stdErrorEl = document.getElementById('stdError');
+        const ci95El = document.getElementById('ci95');
+        const ci99El = document.getElementById('ci99');
+        
+        // Chart
+        let probabilityChart = null;
+        
+        // Initialize with example data
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateResults();
+        });
+        
+        // Calculate when button is clicked
+        calculateBtn.addEventListener('click', calculateResults);
+        
+        // Main calculation function
+        function calculateResults() {
+            // Get input values
+            const b = parseInt(numBetsInput.value);
+            const v = parseFloat(betAmountInput.value);
+            const r = parseFloat(outcomeInput.value);
+            
+            // Validate inputs
+            if (isNaN(b) || isNaN(v) || isNaN(r)) {
+                alert('Please enter valid numbers in all fields');
+                return;
+            }
+            
+            // Calculate number of wins (W) and losses (L)
+            const W = (b * v + r) / (2 * v);
+            const L = b - W;
+            
+            // Validate calculation
+            if (W < 0 || W > b || !isFinite(W)) {
+                alert('Impossible scenario based on inputs. Please check your values.');
+                return;
+            }
+            
+            // Calculate win probability (p̂)
+            const p_hat = W / b;
+            
+            // Calculate standard error (SE)
+            const SE = Math.sqrt((p_hat * (1 - p_hat)) / b);
+            
+            // Calculate EV per bet
+            const EV_per_bet = (2 * p_hat - 1) * v;
+            
+            // Calculate confidence intervals
+            const ci95Low = Math.max(0, p_hat - 1.96 * SE);
+            const ci95High = Math.min(1, p_hat + 1.96 * SE);
+            const ci99Low = Math.max(0, p_hat - 2.576 * SE);
+            const ci99High = Math.min(1, p_hat + 2.576 * SE);
+            
+            // Update UI with results
+            winProbEl.textContent = (p_hat * 100).toFixed(2) + '%';
+            edgePerBetEl.textContent = '$' + EV_per_bet.toFixed(4);
+            stdErrorEl.textContent = SE.toFixed(5);
+            ci95El.textContent = (ci95Low * 100).toFixed(2) + '% - ' + (ci95High * 100).toFixed(2) + '%';
+            ci99El.textContent = (ci99Low * 100).toFixed(2) + '% - ' + (ci99High * 100).toFixed(2) + '%';
+            
+            // Update chart
+            updateChart(p_hat, SE, b);
+        }
+        
+        // Update the probability distribution chart
+        function updateChart(p_hat, SE, b) {
+            const ctx = document.getElementById('probabilityChart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (probabilityChart) {
+                probabilityChart.destroy();
+            }
+            
+            // Generate data points for normal curve
+            const minX = Math.max(0, p_hat - 4 * SE);
+            const maxX = Math.min(1, p_hat + 4 * SE);
+            const step = (maxX - minX) / 100;
+            
+            const labels = [];
+            const data = [];
+            
+            for (let x = minX; x <= maxX; x += step) {
+                labels.push((x * 100).toFixed(1) + '%');
+                // Normal distribution PDF
+                const exponent = -0.5 * Math.pow((x - p_hat) / SE, 2);
+                const y = Math.exp(exponent) / (SE * Math.sqrt(2 * Math.PI));
+                data.push(y);
+            }
+            
+            // Normalize data to make the chart look better
+            const maxY = Math.max(...data);
+            const normalizedData = data.map(y => y / maxY * 100);
+            
+            probabilityChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Probability Density',
+                        data: normalizedData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: ``,
+                            color: '#fff',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                color: '#fff'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Relative likelihood: ${(context.raw).toFixed(1)}%`;
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line',
+                                    yMin: 0,
+                                    yMax: 100,
+                                    xMin: p_hat,
+                                    xMax: p_hat,
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: `p̂ = ${(p_hat * 100).toFixed(2)}%`,
+                                        enabled: true,
+                                        position: 'top'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Win Probability (p)',
+                                color: '#fff'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Relative Likelihood',
+                                color: '#fff'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Theory of possibilities</title>
+  <link rel="icon" href="./favicon.jpg" type="image/jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="./favicon.jpg" type="image/jpg">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #0ea5e9;
+      --accent-gradient: linear-gradient(to right, #4ade80, #22d3ee);
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --success: #4ade80;
+      --warning: #fbbf24;
+      --danger: #ef4444;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --border-radius: 12px;
+      --box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    
+    body {
+      background: var(--primary);
+      color: var(--text-primary);
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(30, 107, 184, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 20%);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    /* Header & Navigation */
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 0;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    h1 {
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+    
+    
+    /* Layout */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--box-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+    }
+
+
+    
+    .card-title i {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .card-wide {
+      grid-column: span 2;
+    }
+    
+    .card-full {
+      grid-column: span 4;
+    }
+    
+    /* Ecosystem Section */
+    .ecosystem {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .ecosystem-card {
+      padding: 25px;
+      border-radius: var(--border-radius);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ecosystem-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--accent-gradient);
+    }
+    
+    .ecosystem-card.stocks::before {
+      background: var(--accent-gradient);
+    }
+    
+    .ecosystem-card.forex::before {
+      background: linear-gradient(to right, #22d3ee, #3b82f6);
+    }
+    
+    .ecosystem-card.crypto::before {
+      background: linear-gradient(to right, #8b5cf6, #ec4899);
+    }
+    
+    .ecosystem-title {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+/* 4 main colors with 3 layers each */
+
+/* Color1 - Red shades */
+.color1-layer1 { background: #f1948a; color: #660000; }
+.color1-layer2 { background: #e74c3c; color: #fff; }
+.color1-layer3 { background: #922b21; color: #fff; }
+
+/* Color2 - Yellow/Gold shades */
+.color2-layer1 { background: #f7dc6f; color: #665c00; }
+.color2-layer2 { background: #f1c40f; color: #222; }
+.color2-layer3 { background: #b7950b; color: #222; }
+
+/* Color3 - Green shades */
+.color3-layer1 { background: #82e0aa; color: #004d1a; }
+.color3-layer2 { background: #27ae60; color: #fff; }
+.color3-layer3 { background: #1e8449; color: #fff; }
+
+/* Color4 - Blue shades */
+.color4-layer1 { background: #85c1e9; color: #00345b; }
+.color4-layer2 { background: #2980b9; color: #fff; }
+.color4-layer3 { background: #1b4f72; color: #fff; }
+
+
+
+    .ecosystem-symbols {
+      list-style-type: none;
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+    
+    .ecosystem-symbols li {
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .ecosystem-symbols li::before {
+      content: '•';
+      position: absolute;
+      left: -20px;
+      color: var(--accent);
+    }
+    
+    /* Watchlists */
+    .watchlists {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    
+  .watchlist-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .symbol-card {
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+  }
+  /* USD groups */
+  .usd-red { background: #4697f3; }    /* red */
+  .usd-yellow { background: #f0ad4e; } /* yellow */
+  .usd-green { background: #5cb85c; }  /* green */
+
+  /* CHF groups */
+  .chf-red { background: #4697f3; }
+  .chf-yellow { background: #f0ad4e; }
+  .chf-green { background: #5cb85c; }
+
+  /* EUR groups */
+  .eur-red { background: #4697f3; }
+  .eur-yellow { background: #f0ad4e; }
+  .eur-green { background: #5cb85c; }
+
+  /* GBP groups */
+  .gbp-yellow { background: #f0ad4e; }
+  .gbp-green { background: #5cb85c; }
+
+  /* JPY and AUD groups */
+  .jpy-green { background: #5cb85c; }
+  .aud-green { background: #5cb85c; }
+    
+    .symbol-card {
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+    }
+    
+    .symbol-card:hover {
+      background: rgba(14, 165, 233, 0.15);
+      transform: translateY(-3px);
+    }
+    
+    .symbol-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .symbol-value {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .positive {
+      color: var(--success);
+    }
+    
+    .negative {
+      color: var(--danger);
+    }
+    
+    /* Strategy Section */
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    
+    .strategy-point {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+    }
+    
+    .strategy-icon {
+      font-size: 1.8rem;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Market Clock */
+  
+    .iframe-wrapper {
+      margin: 40px auto;
+      max-width: 600px;
+      height: 850px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      width: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 1200px;
+      border: none;
+      pointer-events: auto;
+    }
+
+.crypto-red {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.crypto-yellow {
+  background-color: #f1c40f;
+  color: #222;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.crypto-green {
+  background-color: #27ae60;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+
+
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .card-full {
+        grid-column: span 2;
+      }
+      
+      .ecosystem {
+        grid-template-columns: 1fr;
+      }
+      
+      .watchlists {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      
+      .card-full, .card-wide {
+        grid-column: span 1;
+      }
+      
+      .header {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+
+      .strategy-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+  </style>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <nav class="nav">
+                <a href="./main.html" class="nav-link active">Main</a>
+                <a href="./index.html" class="nav-link">Forex</a>
+                <a href="./edgeCalculator.html" class="nav-link">EV</a>
+                <a href="./cbRates.html" class="nav-link">CB Rates</a>
+                <a href="./effectivityOfAds.html" class="nav-link">ROAS/CPA</a>
+                <a href="./realEstate.html" class="nav-link">Real estate</a>
+                <a href="./polymarket.html" class="nav-link">Polymarket</a>
+            </nav>
+        </div>
+
+        <div class="iframe-wrapper" style="height: 600px; overflow: hidden; position: relative;">
+    <iframe 
+        src="https://market24hclock.com/?set_theme=dark" 
+        style="position: absolute; top: -200px; left: 0; width: 100%; height: 1000px; border: none;" 
+        scrolling="no" 
+        loading="lazy">
+    </iframe>
+</div>
+
+<div style="height: 600px; overflow: hidden; position: relative;">
+  <iframe 
+    src="https://tradingeconomics.com/calendar" 
+    style="position: absolute; top: -220px; left: 0; width: 100%; height: 1000px; border: none;" 
+    scrolling="no" 
+    loading="lazy">
+  </iframe>
+</div>
+
+    </div>
+    <div class="dashboard">
+      <!-- Financial Ocean Ecosystem -->
+      <div class="card card-full">
+        <h2 class="card-title"><i class="fas fa-water"></i> Financial Ocean Ecosystem</h2>
+        
+        <div class="ecosystem">
+          <!-- Stocks Card -->
+          <div class="ecosystem-card stocks">
+            <h3 class="ecosystem-title"><i class="fas fa-whale"></i> Stocks = Whales, Sharks, Turtles</h3>
+            <p>Whales: Institutional investors, pension funds, mega-caps (e.g., Apple, Nvidia)<br>
+            Sharks: Hedge funds, active traders<br>
+            Turtles: Long-term investors, moving slow but growing big</p>
+            <p><strong>Purpose:</strong> They define the structure and current of the market. Their moves create trends, direction, and impact the ecosystem long-term.</p>
+            <ul class="ecosystem-symbols">
+              <li>Whales: AAPL, MSFT, NVDA</li>
+              <li>Sharks: TSLA, AMZN, META</li>
+              <li>Turtles: BRK.B, JPM, XOM</li>
+            </ul>
+          </div>
+          
+          <!-- Forex Card -->
+          <div class="ecosystem-card forex">
+            <h3 class="ecosystem-title"><i class="fas fa-fish"></i> Forex = Currents, Schools of Fish</h3>
+            <p>Currents: Central banks, macro trends (USD flows, rates, inflation)<br>
+            Schools of fish: Traders moving with momentum, reacting to news, policy<br>
+            Coral reef: Economic indicators, interest rate differentials = structure that attracts movement</p>
+            <p><strong>Purpose:</strong> It's the circulatory system of the ocean — it powers and responds to global movement, but rarely creates it.</p>
+            <ul class="ecosystem-symbols">
+              <li>Currents: USD, EUR, JPY</li>
+              <li>Schools: GBP/USD, EUR/JPY, AUD/USD</li>
+              <li>Coral: Interest rates, CPI data</li>
+            </ul>
+          </div>
+          
+          <!-- Crypto Card -->
+          <div class="ecosystem-card crypto">
+            <h3 class="ecosystem-title"><i class="fas fa-biohazard"></i> Crypto = Mutating Species, Bioluminescent Predators</h3>
+            <p>Bioluminescent fish: Flashy new tokens, eye-catching but fragile<br>
+            Toxic blooms: Rug pulls, scams, hype-driven bubbles<br>
+            Mutants: Bitcoin, Ethereum — unpredictable but potentially evolutionary</p>
+            <p><strong>Purpose:</strong> Experimental zone of the market — where evolution, chaos, and innovation collide. Can threaten the food chain, or evolve into a new apex form.</p>
+            <ul class="ecosystem-symbols">
+              <li>Bioluminescent: PEPE, BONK, SHIB</li>
+              <li>Toxic blooms: LUNA, FTX, failed projects</li>
+              <li>Mutants: BTC, ETH, SOL</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Trading Strategy -->
+      <div class="card card-wide">
+        <h2 class="card-title"><i class="fas fa-chess-knight"></i> Trading Strategy</h2>
+        <div class="strategy-grid">
+          <div class="strategy-point">
+            <div class="strategy-icon"><i class="fas fa-traffic-light"></i></div>
+            <div>
+
+                <ul style="list-style-type: none; padding-left: 0; margin-bottom: 20px;">
+  <li style="margin-bottom: 8px; font-size: 16px;">👀 Watch the <strong>1D chart</strong> on TradingView for the next <strong>27 trades</strong>.</li>
+  <li style="margin-bottom: 8px; font-size: 16px;">✅ Confirm setups on the <strong>1H chart</strong>.</li>
+</ul>
+
+<ul style="list-style-type: none; padding-left: 0; margin-bottom: 20px;">
+  <li style="margin-bottom: 8px; font-size: 16px;">📈 Moving Averages: MA12, MA20, MA50</li>
+  <li style="margin-bottom: 8px; font-size: 16px;">Bollinger Bands (BB)</li>
+  <li style="margin-bottom: 8px; font-size: 16px;">RSI</li>
+  <li style="margin-bottom: 8px; font-size: 16px;">Stochastic (9/3 exponential)</li>
+  <li style="margin-bottom: 8px; font-size: 16px;">MACD</li>
+  <li style="margin-bottom: 8px; font-size: 16px;">Fibonacci retracements</li>
+</ul>
+
+<ul style="list-style-type: none; padding-left: 0; margin-bottom: 20px;">
+  <li style="margin-bottom: 8px; font-size: 16px;">💰 Default lot: <strong>0.05 BUT HIGHER WHEN FOUND BEST</strong></li>
+  <li style="margin-bottom: 8px; font-size: 16px;">⏳ Swing trades: <strong>3–5 days</strong></li>
+</ul>
+
+<ul style="list-style-type: none; padding-left: 0; margin-bottom: 20px;">
+  <li style="margin-bottom: 8px; font-size: 16px;">⚡ For strongest setups: leverage <strong>x25–50</strong></li>
+  <li style="margin-bottom: 8px; font-size: 16px;">🛡️ Maximum risk: <strong>5% of bankroll per trade</strong></li>
+   <li style="margin-bottom: 8px; font-size: 16px;">👀 Watch each <strong>1-4h</strong>, close all before sleep/first thing in morning check</li>
+</ul>
+
+            </div>
+          </div>
+          
+          <div class="strategy-point">
+            <div class="strategy-icon"><i class="fas fa-flask"></i></div>
+            <div>
+              <h3>Experiments to Try</h3>
+              <ul class="ecosystem-symbols">
+                <li>Trailing stop</li>
+                <li>Only limit orders on buy</li>
+                <li>No stoploss (especially stock)</li>
+                <li>Only 1 / only exotic / only scamcoin etc</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; border: 2px solid #2196F3; border-radius: 12px; background-color: #f0f8ff;">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+              <div style="font-size: 30px; color: #2196F3; margin-right: 10px;">🧠</div>
+              <h3 style="margin: 0; color: #0D47A1;">Key Market Insights</h3>
+            </div>
+            <ul style="list-style-type: none; padding-left: 0; line-height: 1.6; color: #333;">
+              <li>⚪️ Banks must perform stress tests to locate vulnerabilities, even if imperfect.</li>
+              <li>⚪️ Markets often overreact based on collective perception rather than fundamentals.</li>
+              <li>⚪️ Natural deviations exist (IQ, age, etc.), but in finance patterns often differ.</li>
+              <li>⚪️ Investors often overlook covariance, causing simultaneous gains or losses without understanding why.</li>
+              <li>⚪️ CAPM is more for standardization; correlation and risk metrics are often more useful.</li>           </ul>
+          </div>
+
+        </div>
+      </div>
+      
+      <!-- Daily Watchlists -->
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-star"></i> Core Stocks</h2>
+        <div class="watchlists">
+            <div>
+            <h3>1. Retartedness of society factor </h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card color1-layer3"><div class="symbol-name">AAPL</div></div>
+                <div class="symbol-card color1-layer3"><div class="symbol-name">TSLA</div></div>
+            </div>
+            </div>
+
+            <div>
+            <h3>2. Base NASDAQ</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card color2-layer2"><div class="symbol-name">MSFT</div></div>
+                <div class="symbol-card color2-layer2"><div class="symbol-name">META</div></div>
+                <div class="symbol-card color2-layer2"><div class="symbol-name">GOOGL</div></div>
+                <div class="symbol-card color3-layer3"><div class="symbol-name">NVDA</div></div>
+                <div class="symbol-card color4-layer1"><div class="symbol-name">AMD</div></div>
+                <div class="symbol-card color4-layer2"><div class="symbol-name">TSM</div></div>
+            </div>
+            </div>
+
+
+
+            <div>
+            <h3>3. Production & Consumption</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card color1-layer1"><div class="symbol-name">AMZN</div></div>
+                <div class="symbol-card color1-layer1"><div class="symbol-name">WMT</div></div>
+
+                <div class="symbol-card color1-layer2"><div class="symbol-name">SHOP</div></div>
+                <div class="symbol-card color1-layer2"><div class="symbol-name">NFLX</div></div>
+
+                <div class="symbol-card color2-layer1"><div class="symbol-name">BABA</div></div>
+            </div>
+            </div>
+
+            <div>
+            <h3>4. Finance Giants</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card color4-layer1"><div class="symbol-name">JPM</div></div>
+                <div class="symbol-card color4-layer2"><div class="symbol-name">BRK.B</div></div>
+                <div class="symbol-card color4-layer3"><div class="symbol-name">V</div></div>
+                <div class="symbol-card color2-layer3"><div class="symbol-name">UNH</div></div>
+                <div class="symbol-card color3-layer1"><div class="symbol-name">XOM</div></div>
+            </div>
+            </div>
+
+            <div>
+            <h3>5. Defense</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card color3-layer2"><div class="symbol-name">BA</div></div>
+                <div class="symbol-card color3-layer3"><div class="symbol-name">LMT</div></div>
+            </div>
+            </div>
+<div>
+            <h3>6. Index</h3>
+            <div class="watchlist-grid">
+              <div class="symbol-card color3-layer1"><div class="symbol-name">JPY Nikkei 225</div></div>
+              <div class="symbol-card color3-layer2"><div class="symbol-name">GBP FTSE 100</div></div>
+              <div class="symbol-card color3-layer3"><div class="symbol-name">AUD ASX 200</div></div>
+              <div class="symbol-card color3-layer4"><div class="symbol-name">CHF SMI 20</div></div>
+              <div class="symbol-card color3-layer5"><div class="symbol-name">NZD NZX 50</div></div>
+              <div class="symbol-card color3-layer6"><div class="symbol-name">EUR Stoxx 50</div></div>
+              <div class="symbol-card color3-layer7"><div class="symbol-name">CAD S&P/TSX</div></div>
+              <div class="symbol-card color3-layer8"><div class="symbol-name">USD S&P 500</div></div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+      
+    <div class="card card-wide">
+        <h2 class="card-title"><i class="fas fa-sync-alt"></i> Forex Pairs</h2>
+        <div class="watchlists">
+
+            <div>
+            <h3>1. USD</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card usd-red">USDEUR</div>
+                <div class="symbol-card usd-red">USDCHF</div>
+                <div class="symbol-card usd-red">USDGBP</div>
+
+                <div class="symbol-card usd-yellow">USDJPY</div>
+
+                <div class="symbol-card usd-green">USDCAD</div>
+                <div class="symbol-card usd-green">USDAUD</div>
+                <div class="symbol-card usd-green">USDNZD</div>
+            </div>
+            </div>
+
+            <div>
+            <h3>2. CHF</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card chf-red">CHFEUR</div>
+                <div class="symbol-card chf-red">CHFGBP</div>
+
+                <div class="symbol-card chf-yellow">CHFJPY</div>
+
+                <div class="symbol-card chf-green">CHFCAD</div>
+                <div class="symbol-card chf-green">CHFAUD</div>
+                <div class="symbol-card chf-green">CHFNZD</div>
+            </div>
+            </div>
+
+            <div>
+            <h3>3. EUR</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card eur-red">EURGBP</div>
+
+                <div class="symbol-card eur-yellow">EURJPY</div>
+
+                <div class="symbol-card eur-green">EURCAD</div>
+                <div class="symbol-card eur-green">EURAUD</div>
+                <div class="symbol-card eur-green">EURNZD</div>
+            </div>
+            </div>
+
+            <div>
+            <h3>4. GBP</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card gbp-yellow">GBPJPY</div>
+
+                <div class="symbol-card gbp-green">GBPCAD</div>
+                <div class="symbol-card gbp-green">GBPAUD</div>
+                <div class="symbol-card gbp-green">GBPNZD</div>
+            </div>
+            </div>
+
+            <div>
+            <h3>5. JPY</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card jpy-green">JPYCAD</div>
+                <div class="symbol-card jpy-green">JPYAUD</div>
+                <div class="symbol-card jpy-green">JPYNZD</div>
+            </div>
+            </div>
+
+            <div>
+            <h3>6. AUD</h3>
+            <div class="watchlist-grid">
+                <div class="symbol-card aud-green">AUDCAD</div>
+                <div class="symbol-card aud-green">AUDNZD</div>
+            </div>
+            </div>
+
+        </div>
+
+<!-- Daily News Check -->
+<div class="card card-full">
+  <h2 class="card-title"><i class="fas fa-newspaper"></i> Daily News & Market Intelligence</h2>
+    <div class="strategy-grid">
+
+      <!-- News & Markets -->
+      <a href="https://polymarket.com/" target="_blank" class="symbol-card crypto-red">Polymarket</a>
+      <a href="https://ground.news/" target="_blank" class="symbol-card chf-green">Ground News</a>
+      <a href="https://www.rts.ch/info/economie/" target="_blank" class="symbol-card chf-yellow">RTS Économie</a>
+      <a href="https://www.letemps.ch/economie" target="_blank" class="symbol-card chf-yellow">Le Temps Économie</a>
+      <a href="https://www.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22AllUSA%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D" target="_blank" class="symbol-card chf-green">All US Companies</a>
+
+      <!-- Section: Stats -->
+      <div class="full-width-section"><h2>Stats</h2></div>
+      <a href="https://www.worldometers.info/gdp/gdp-by-country/" target="_blank" class="symbol-card chf-green">GDP</a>
+      <a href="https://www.visualcapitalist.com" target="_blank" class="symbol-card chf-green">Visual Capitalist</a>
+      <a href="https://www.federalreserve.gov/releases/z1/dataviz/dfa/distribute/chart/#range:1989.3,2025.1;quarter:141;series:Real%20estate;demographic:generation;population:all;units:shares" target="_blank" class="symbol-card chf-green">Fed: Home Ownership</a>
+
+      <!-- Section: Law -->
+      <div class="full-width-section"><h2>Law</h2></div>
+      <a href="https://taxsummaries.pwc.com/" target="_blank" class="symbol-card chf-green">PwC Tax Summaries</a>
+
+    </div>
+
+</div>
+
+
+    </div>
+      
+    <div class="card card-wide">
+        <h2 class="card-title"><i class="fas fa-coins"></i> Crypto Pairs</h2>
+        <div class="watchlists">
+    <div>
+      <h3>1. Major Coins</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-red">BTCUSD</div>
+        <div class="symbol-card crypto-red">ETHUSD</div>
+        <div class="symbol-card crypto-red">LTCUSD</div>
+        <div class="symbol-card crypto-yellow">BNBUSD</div>
+      </div>
+    </div>
+
+    <div>
+      <h3>2. Popular Altcoins</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-yellow">SOLUSD</div>
+        <div class="symbol-card crypto-yellow">XRPUSD</div>
+        <div class="symbol-card crypto-yellow">ADAUSD</div>
+      </div>
+    </div>
+
+    <div>
+      <h3>3. Mid Caps</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-green">DOTUSD</div>
+        <div class="symbol-card crypto-green">AVAXUSD</div>
+        <div class="symbol-card crypto-green">LINKUSD</div>
+      </div>
+    </div>
+
+    <div>
+      <h3>4. Smaller Caps</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-green">TONUSD</div>
+        <div class="symbol-card crypto-green">TRONUSD</div>
+      </div>
+    </div>
+
+    <div>
+      <h3>5. Diverse Alts</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-green">XMRUSD</div>
+        <div class="symbol-card crypto-green">ATOMUSD</div>
+        <div class="symbol-card crypto-green">MATICUSD</div>
+      </div>
+    </div>
+
+    <div>
+      <h3>6. Emerging</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-green">ARBUSD</div>
+        <div class="symbol-card crypto-green">APTUSD</div>
+        <div class="symbol-card crypto-green">PEPEUSD</div>
+      </div>
+    </div>
+
+    <div>
+      <h3>7. Others</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-red">DOGEUSD</div>
+        <div class="symbol-card crypto-red">SUIUSD</div>
+        <div class="symbol-card crypto-red">XLMUSD</div>
+        <div class="symbol-card crypto-red">APEUSD</div>
+        <div class="symbol-card crypto-red">FTMUSD</div>
+        <div class="symbol-card crypto-red">NEARUSD</div>
+        <div class="symbol-card crypto-red">HBARUSD</div>
+        <div class="symbol-card crypto-red">UNIUSD</div>
+        <div class="symbol-card crypto-red">AAVEUSD</div>
+      </div>
+    </div>
+
+    <div>
+      <h3>8. Extended List</h3>
+      <div class="watchlist-grid">
+        <div class="symbol-card crypto-green">MATICUSD</div>
+        <div class="symbol-card crypto-green">ARBUSD</div>
+        <div class="symbol-card crypto-green">APTUSD</div>
+        <div class="symbol-card crypto-green">PEPEUSD</div>
+        <div class="symbol-card crypto-green">DOGEUSD</div>
+        <div class="symbol-card crypto-green">XLMUSD</div>
+        <div class="symbol-card crypto-green">BCHUSD</div>
+        <div class="symbol-card crypto-green">SHIBUSD</div>
+        <div class="symbol-card crypto-green">AAVEUSD</div>
+        <div class="symbol-card crypto-green">ALGOUSD</div>
+        <div class="symbol-card crypto-green">ETCUSD</div>
+        <div class="symbol-card crypto-green">FTMUSD</div>
+        <div class="symbol-card crypto-green">NEARUSD</div>
+        <div class="symbol-card crypto-green">BONKUSD</div>
+        <div class="symbol-card crypto-green">PNUTUSD</div>
+      </div>
+    </div>
+
+  </div>
+    </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Simulate live price updates
+      function updatePrices() {
+        const cards = document.querySelectorAll('.symbol-card');
+        cards.forEach(card => {
+          const valueElement = card.querySelector('.symbol-value');
+          if (valueElement) {
+            const change = (Math.random() - 0.5) * 4;
+            const isPositive = change >= 0;
+            const changeFormatted = change.toFixed(2) + '%';
+            const value = parseFloat(valueElement.querySelector('span').textContent);
+            const newValue = (value * (1 + change/100)).toFixed(2);
+            
+            valueElement.innerHTML = `<span>${newValue}</span> <span class="${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${changeFormatted}</span>`;
+          }
+        });
+      }
+      
+      // Update prices every 5 seconds
+      setInterval(updatePrices, 5000);
+      
+      // Add click effect to symbol cards
+      const symbolCards = document.querySelectorAll('.symbol-card');
+      symbolCards.forEach(card => {
+        card.addEventListener('click', function() {
+          this.classList.toggle('selected');
+        });
+      });
+      
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Theory of possibilities</title>
+    <link rel="icon" href="./favicon.jpg" type="image/jpg">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+      <link rel="stylesheet" href="./index.css">
+      
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", "Roboto", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: #f1f5f9;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+
+
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        background: linear-gradient(to right, #4ade80, #22d3ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.8;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+        color: #cbd5e1;
+      }
+
+      iframe {
+        overflow: hidden;
+      }
+
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
+
+      .currency-group {
+        margin-bottom: 50px;
+        border-radius: 15px;
+        padding: 20px;
+      }
+
+      .currency-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .currency-title img.flag {
+        width: 32px;
+        height: 20px;
+        border-radius: 3px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        object-fit: cover;
+      }
+
+      /* Cards container inside currency group */
+      .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+        gap: 25px;
+      }
+
+      .card {
+        background: rgba(30, 41, 59, 0.7);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        background: rgba(30, 41, 59, 0.85);
+      }
+
+      .card-header {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-weight: 600;
+        font-size: 1.2rem;
+        gap: 12px;
+      }
+
+      .card-header i.flag-icon {
+        width: 30px;
+        height: 20px;
+        border-radius: 3px;
+        object-fit: cover;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      }
+
+      .card-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .card-content {
+        padding: 15px;
+        height: 850px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .iframe-container {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .iframe-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        pointer-events: none;
+      }
+
+      .card-footer {
+        padding: 15px 20px;
+        background: rgba(15, 23, 42, 0.5);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .btn {
+        padding: 8px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(to right, #3b82f6, #6366f1);
+        color: white;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn i {
+        margin-right: 8px;
+      }
+
+      .calendar {
+        background: rgba(30, 41, 59, 0.7);
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .calendar-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        background: linear-gradient(to right, #f59e0b, #ef4444);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .calendar-content {
+        height: 2200px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+      }
+
+      .calendar-content iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 30px 0;
+        margin-top: 40px;
+        opacity: 0.7;
+        font-size: 0.9rem;
+        color: #94a3b8;
+      }
+
+      /* Country-specific colors */
+      .australia .card-header {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 56, 168, 0.3),
+          rgba(227, 26, 33, 0.3)
+        );
+      }
+
+      .canada .card-header {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 0, 0, 0.3),
+          rgba(255, 255, 255, 0.2),
+          rgba(255, 0, 0, 0.3)
+        );
+      }
+
+      .eurozone .card-header {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 51, 153, 0.3),
+          rgba(255, 204, 0, 0.3)
+        );
+      }
+
+      .uk .card-header {
+        background: linear-gradient(
+          90deg,
+          rgba(200, 16, 46, 0.3),
+          rgba(1, 33, 105, 0.3)
+        );
+      }
+
+      .usa .card-header {
+        background: linear-gradient(
+          90deg,
+          rgba(60, 59, 110, 0.3),
+          rgba(178, 34, 52, 0.3)
+        );
+      }
+
+      .swiss .card-header {
+        background: linear-gradient(
+          90deg,
+          rgba(218, 41, 28, 0.3),
+          rgba(255, 255, 255, 0.2)
+        );
+      }
+
+      /* Currency group colors */
+      .currency-aud {
+        background: rgba(0, 56, 168, 0.1);
+        border: 1px solid rgba(0, 56, 168, 0.3);
+      }
+      .currency-cad {
+        background: rgba(255, 0, 0, 0.1);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+      }
+      .currency-eur {
+        background: rgba(0, 51, 153, 0.1);
+        border: 1px solid rgba(0, 51, 153, 0.3);
+      }
+      .currency-gbp {
+        background: rgba(200, 16, 46, 0.1);
+        border: 1px solid rgba(200, 16, 46, 0.3);
+      }
+      .currency-usd {
+        background: rgba(60, 59, 110, 0.1);
+        border: 1px solid rgba(60, 59, 110, 0.3);
+      }
+      .currency-chf {
+        background: rgba(218, 41, 28, 0.1);
+        border: 1px solid rgba(218, 41, 28, 0.3);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 1100px) {
+        .dashboard,
+        .cards-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        .card-content {
+          height: 300px;
+        }
+
+        .calendar-content {
+          height: 400px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .card-header {
+          padding: 15px;
+        }
+
+        .card-title {
+          font-size: 1.3rem;
+        }
+
+        .card-content {
+          height: 250px;
+        }
+
+        .calendar-content {
+          height: 350px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+     <div class="header">
+            <nav class="nav">
+                <a href="./main.html" class="nav-link active">Main</a>
+                <a href="./index.html" class="nav-link">Forex</a>
+                <a href="./edgeCalculator.html" class="nav-link">EV</a>
+                <a href="./cbRates.html" class="nav-link">CB Rates</a>
+                <a href="./effectivityOfAds.html" class="nav-link">ROAS/CPA</a>
+                <a href="./realEstate.html" class="nav-link">Real estate</a>
+                <a href="./polymarket.html" class="nav-link">Polymarket</a>
+            </nav>
+        </div>
+
+        <div style="margin: 40px auto; max-width: 800px;">
+            <iframe
+                width="100%"
+                height="450"
+                src="https://www.youtube.com/embed/R8VBRCs2jTU"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="border-radius: 12px;"
+            ></iframe>
+        </div>
+        <div style="margin: 40px auto; max-width: 800px;">
+            <iframe
+                width="100%"
+                height="450"
+                src="https://www.youtube.com/embed/PHe0bXAIuk0"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="border-radius: 12px;"
+                ></iframe>
+
+        </div>
+        <div style="text-align: center; margin: 40px auto;">
+            <img src="./interest_rates.jpg" alt="Interest Rates Chart" style="max-width: 100%; height: auto;" />
+        </div> <div style="text-align: center; margin: 40px auto;">
+            <img src="./big_cycle.jpg" alt="Interest Rates Chart" style="max-width: 100%; height: auto;" />
+        </div>
+        
+
+
+
+    <div class="container">
+      <h1>Global Central Bank Policies Dashboard</h1>
+
+      <!-- AUD Group -->
+      <section class="currency-group currency-aud">
+        <h2 class="currency-title">
+          <img
+            src="https://flagcdn.com/w40/au.png"
+            alt="Australia Flag"
+            class="flag"
+          />
+          AUD - Australian Dollar
+        </h2>
+        <div class="cards-container">
+          <div class="card australia">
+            <div class="card-header">
+              <img
+                src="https://flagcdn.com/w20/au.png"
+                alt="Australia Flag"
+                class="flag-icon"
+              />
+              Reserve Bank of Australia (RBA)
+            </div>
+            <div class="card-content">
+              <div class="loader">
+                <div class="spinner"></div>
+              </div>
+              <div class="iframe-container">
+                <iframe
+                  src="https://www.cbrates.com/australia/"
+                  title="RBA Policy"
+                ></iframe>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a
+                href="https://www.cbrates.com/australia/"
+                class="btn btn-primary"
+                target="_blank"
+                ><i class="fas fa-external-link-alt"></i> Full Report</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAD Group -->
+      <section class="currency-group currency-cad">
+        <h2 class="currency-title">
+          <img
+            src="https://flagcdn.com/w40/ca.png"
+            alt="Canada Flag"
+            class="flag"
+          />
+          CAD - Canadian Dollar
+        </h2>
+        <div class="cards-container">
+          <div class="card canada">
+            <div class="card-header">
+              <img
+                src="https://flagcdn.com/w20/ca.png"
+                alt="Canada Flag"
+                class="flag-icon"
+              />
+              Bank of Canada (BoC)
+            </div>
+            <div class="card-content">
+              <div class="loader">
+                <div class="spinner"></div>
+              </div>
+              <div class="iframe-container">
+                <iframe
+                  src="https://www.cbrates.com/canada/"
+                  title="BoC Policy"
+                ></iframe>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a
+                href="https://www.cbrates.com/canada/"
+                class="btn btn-primary"
+                target="_blank"
+                ><i class="fas fa-external-link-alt"></i> Full Report</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EUR Group -->
+      <section class="currency-group currency-eur">
+        <h2 class="currency-title">
+          <img
+            src="https://flagcdn.com/w40/eu.png"
+            alt="Eurozone Flag"
+            class="flag"
+          />
+          EUR - Euro
+        </h2>
+        <div class="cards-container">
+          <div class="card eurozone">
+            <div class="card-header">
+              <img
+                src="https://flagcdn.com/w20/eu.png"
+                alt="Eurozone Flag"
+                class="flag-icon"
+              />
+              European Central Bank (ECB)
+            </div>
+            <div class="card-content">
+              <div class="loader">
+                <div class="spinner"></div>
+              </div>
+              <div class="iframe-container">
+                <iframe
+                  src="https://www.cbrates.com/eurozone/"
+                  title="ECB Policy"
+                ></iframe>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a
+                href="https://www.cbrates.com/eurozone/"
+                class="btn btn-primary"
+                target="_blank"
+                ><i class="fas fa-external-link-alt"></i> Full Report</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GBP Group -->
+      <section class="currency-group currency-gbp">
+        <h2 class="currency-title">
+          <img
+            src="https://flagcdn.com/w40/gb.png"
+            alt="UK Flag"
+            class="flag"
+          />
+          GBP - British Pound
+        </h2>
+        <div class="cards-container">
+          <div class="card uk">
+            <div class="card-header">
+              <img
+                src="https://flagcdn.com/w20/gb.png"
+                alt="UK Flag"
+                class="flag-icon"
+              />
+              Bank of England (BoE)
+            </div>
+            <div class="card-content">
+              <div class="loader">
+                <div class="spinner"></div>
+              </div>
+              <div class="iframe-container">
+                <iframe
+                  src="https://www.cbrates.com/england/index.htm"
+                  title="BoE Policy"
+                ></iframe>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a
+                href="https://www.cbrates.com/england/index.htm"
+                class="btn btn-primary"
+                target="_blank"
+                ><i class="fas fa-external-link-alt"></i> Full Report</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- USD Group -->
+      <section class="currency-group currency-usd">
+        <h2 class="currency-title">
+          <img
+            src="https://flagcdn.com/w40/us.png"
+            alt="USA Flag"
+            class="flag"
+          />
+          USD - US Dollar
+        </h2>
+        <div class="cards-container">
+          <div class="card usa">
+            <div class="card-header">
+              <img
+                src="https://flagcdn.com/w20/us.png"
+                alt="USA Flag"
+                class="flag-icon"
+              />
+              Federal Reserve (Fed)
+            </div>
+            <div class="card-content">
+              <div class="loader">
+                <div class="spinner"></div>
+              </div>
+              <div class="iframe-container">
+                <iframe
+                  src="https://www.cbrates.com/usa/"
+                  title="Fed Policy"
+                ></iframe>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a
+                href="https://www.cbrates.com/usa/"
+                class="btn btn-primary"
+                target="_blank"
+                ><i class="fas fa-external-link-alt"></i> Full Report</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="currency-group currency-jpy" style="border-color:#bc002d;">
+  <h2 class="currency-title" style="color:#bc002d;">
+    <img src="https://flagcdn.com/w40/jp.png" alt="Japan Flag" class="flag" />
+    JPY - Japanese Yen
+  </h2>
+  <div class="cards-container">
+    <div class="card japan">
+      <div class="card-header" style="background: rgba(188, 0, 45, 0.3);">
+        <img src="https://flagcdn.com/w20/jp.png" alt="Japan Flag" class="flag-icon" />
+        Bank of Japan (BoJ)
+      </div>
+      <div class="card-content">
+        <div class="loader">
+          <div class="spinner"></div>
+        </div>
+        <div class="iframe-container">
+          <iframe src="https://www.tradingview.com/symbols/ECONOMICS-JPINTR/" title="BoJ Policy" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="https://www.tradingview.com/symbols/ECONOMICS-JPINTR/" class="btn btn-primary" target="_blank">
+          <i class="fas fa-external-link-alt"></i> Full Report
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      <!-- CHF Group -->
+      <section class="currency-group currency-chf">
+        <h2 class="currency-title">
+          <img
+            src="https://flagcdn.com/w40/ch.png"
+            alt="Switzerland Flag"
+            class="flag"
+          />
+          CHF - Swiss Franc
+        </h2>
+        <div class="cards-container">
+          <div class="card swiss">
+            <div class="card-header">
+              <img
+                src="https://flagcdn.com/w20/ch.png"
+                alt="Switzerland Flag"
+                class="flag-icon"
+              />
+              Swiss National Bank (SNB)
+            </div>
+            <div class="card swiss">
+                <div class="card-content">
+                    <div class="loader">
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="iframe-container">
+                        <img src="https://data.snb.ch/api/chart/zimomach/png/en" alt="SNB Policy Chart" style="width:100%; height:100%; object-fit: cover;" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+              <a
+                href="https://www.cbrates.com/switzerland/"
+                class="btn btn-primary"
+                target="_blank"
+                ><i class="fas fa-external-link-alt"></i> Full Report</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Global Central Bank Meeting Calendar -->
+      <section class="calendar">
+        <div class="calendar-header">
+          <h2 class="calendar-title">
+            <i class="fas fa-calendar-alt"></i> Central Bank Meeting Calendar
+          </h2>
+        </div>
+        <div class="calendar-content">
+          <iframe
+            src="https://fxpro.news/bank-calendar/"
+            title="Central Bank Meeting Calendar"
+          ></iframe>
+        </div>
+      </section>
+
+      <div style="margin: 40px auto; max-width: 900px;">
+  <h2 style="color: #1691D9; text-align: center;">Central Bank Rates Overview</h2>
+  <iframe src="https://www.cbrates.com/" width="100%" height="1600" style="border: none; border-radius: 12px;"></iframe>
+</div>
+
+              <iframe
+                src="https://www.pgpf.org/national-debt-clock/?gad_source=1&gad_campaignid=17473447126&gbraid=0AAAAABdefgZoG-fj-EtvqoFGR1xeDjzF8&gclid=Cj0KCQjw18bEBhCBARIsAKuAFEZo8gJKuWlZCHh_ELoa5rG1qVZJFQhydSppDVr-W8Z2RVrZvnUs7AgaAsCLEALw_wcB"
+                width="100%"
+                height="2400px"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+
+
+      <footer>
+        &copy; 2025 Global Central Bank Policies Dashboard - All rights
+        reserved.
+      </footer>
+    </div>
+  </body>
+</html>

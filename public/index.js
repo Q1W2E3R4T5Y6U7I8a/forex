@@ -8,8 +8,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const rsiListsContainer = document.getElementById('rsi-lists');
   const tradingData = await fetchTradingData();
   if (tradingData.length > 0) {
-    const tradingAnalysis = createTradingAnalysis(tradingData);
-    chartsContainer.prepend(tradingAnalysis);
+  const tradingAnalysis = createTradingAnalysis(tradingData);
+  chartsContainer.prepend(tradingAnalysis);
+  } else {
+    console.log("Trading data is empty.");
   }
 
   Object.entries(currencyGroups).forEach(([currency, pairs]) => {
