@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Market DUM</title>
+  <link rel="icon" href="./favicon.jpg" type="image/jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./../../index.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation -->
+    <nav class="nav">
+      <a href="./main.html" class="nav-link active">Main</a>
+      <a href="./../../index.html" class="nav-link">Analytics</a>
+      <a href="./edgeCalculator.html" class="nav-link">EV</a>
+      <a href="./cbRates.html" class="nav-link">CB Rates</a>
+      <a href="./effectivityOfAds.html" class="nav-link">ROAS/CPA</a>
+      <a href="./realEstate.html" class="nav-link">Real estate</a>
+      <a href="./polymarket.html" class="nav-link">Polymarket</a>
+    </nav>
+
+    <!-- Market Sessions with Proper Overlap -->
+    <div class="card">
+      <h2><i class="fas fa-clock"></i> Market Sessions</h2>
+      <div class="sessions-container">
+        <!-- Timeline with overlap zones -->
+        <div class="session-timeline" id="sessionTimeline">
+          <div class="session-overlap" id="asia-europe-overlap"></div>
+          <div class="session-overlap" id="europe-us-overlap"></div>
+          <div class="session-marker" id="nowMarker" style="left: 50%;"></div>
+        </div>
+        
+        <!-- Session blocks with live times -->
+        <div class="session-blocks">
+          <div class="session-block asia" id="asia-block">
+            <div class="session-name">🇯🇵 ASIA</div>
+            <div class="session-hours">23:00 - 08:00 UTC</div>
+            <div class="session-time" id="asia-time">--:--</div>
+            <div class="session-indicator" id="asia-indicator">◌ CLOSED</div>
+          </div>
+          
+          <div class="session-block europe" id="europe-block">
+            <div class="session-name">🇬🇧 EUROPE</div>
+            <div class="session-hours">08:00 - 17:00 UTC</div>
+            <div class="session-time" id="europe-time">--:--</div>
+            <div class="session-indicator" id="europe-indicator">◌ CLOSED</div>
+          </div>
+          
+          <div class="session-block us" id="us-block">
+            <div class="session-name">🇺🇸 US</div>
+            <div class="session-hours">13:00 - 22:00 UTC</div>
+            <div class="session-time" id="us-time">--:--</div>
+            <div class="session-indicator" id="us-indicator">◌ CLOSED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Ocean (Collapsible) -->
+    <div class="card card-full">
+      <div class="collapsible-header collapsed" onclick="toggleSection('ocean')">
+        <i class="fas fa-chevron-down" id="ocean-arrow"></i>
+        <h2 style="margin:0; border:none;"><i class="fas fa-water"></i> Financial Ocean</h2>
+        <span style="color: var(--text-secondary); font-size:13px;">(click to expand)</span>
+      </div>
+      
+      <div class="collapsible-content collapsed" id="ocean-content">
+        <div class="ecosystem">
+          <div class="ecosystem-card stocks">
+            <h3 class="ecosystem-title"><i class="fas fa-whale"></i> Stocks</h3>
+            <p>Whales → Sharks → Turtles</p>
+            <ul class="ecosystem-symbols">
+              <li>Whales: AAPL, MSFT, NVDA</li>
+              <li>Sharks: TSLA, AMZN, META</li>
+              <li>Turtles: BRK.B, JPM, XOM</li>
+            </ul>
+          </div>
+          <div class="ecosystem-card forex">
+            <h3 class="ecosystem-title"><i class="fas fa-fish"></i> Forex</h3>
+            <p>Currents → Schools → Coral</p>
+            <ul class="ecosystem-symbols">
+              <li>Currents: USD, EUR, JPY</li>
+              <li>Schools: GBP/USD, EUR/JPY</li>
+              <li>Coral: Interest rates, CPI</li>
+            </ul>
+          </div>
+          <div class="ecosystem-card crypto">
+            <h3 class="ecosystem-title"><i class="fas fa-biohazard"></i> Crypto</h3>
+            <p>Mutants → Bioluminescent → Toxic</p>
+            <ul class="ecosystem-symbols">
+              <li>Mutants: BTC, ETH, SOL</li>
+              <li>Bioluminescent: PEPE, BONK</li>
+              <li>Toxic: LUNA, FTX</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy: September 2024 - March 2026 -->
+    <div class="card card-full">
+      <div class="collapsible-header collapsed" onclick="toggleSection('strategy1')">
+        <i class="fas fa-chevron-down" id="strategy1-arrow"></i>
+        <h2 style="margin:0; border:none;">📌 September 2024 - March 2026</h2>
+        <span style="color: var(--text-secondary); font-size:13px;">(click to expand)</span>
+      </div>
+      
+      <div class="collapsible-content collapsed content-grid-2" id="strategy1-content">
+        <div class="recommendation-card">
+          <h3><i class="fas fa-chess-knight"></i> Trading Framework</h3>
+          <ul class="recommendation-list">
+            <li>1D chart for direction, 1H for entry</li>
+            <li>MA12, MA20, MA50, BB, RSI, MACD</li>
+            <li>Default lot: 0.05 (higher on strong setups)</li>
+            <li>Swing trades: 3-5 days</li>
+            <li>Leverage x25-50 on strongest setups</li>
+            <li>Max risk: 5% per trade</li>
+            <li>Check every 1-4h, close before sleep</li>
+          </ul>
+        </div>
+        <div class="recommendation-card">
+          <h3><i class="fas fa-flask"></i> Experiments & Context</h3>
+          <ul class="recommendation-list">
+            <li>Try: trailing stop, limit orders only</li>
+            <li>Try: no stoploss on stocks</li>
+            <li>Try: exotic pairs only</li>
+            <li>Banks stress test to find vulnerabilities</li>
+            <li>Markets overreact to perception</li>
+            <li>Watch covariance between assets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy: March 2026 - ongoing -->
+    <div class="card card-full">
+      <div class="collapsible-header collapsed" onclick="toggleSection('strategy2')">
+        <i class="fas fa-chevron-down" id="strategy2-arrow"></i>
+        <h2 style="margin:0; border:none;">📌 March 2026 - ongoing</h2>
+        <span style="color: var(--text-secondary); font-size:13px;">(click to expand)</span>
+      </div>
+      
+      <div class="collapsible-content collapsed" id="strategy2-content">
+        <div class="recommendation-card">
+          <h3><i class="fas fa-chess-knight"></i> Current Framework</h3>
+          <ul class="recommendation-list">
+            <li>Going through Ground News daily</li>
+            <li>Copying data into DS to generate reports</li>
+            <li>Swing trades only</li>
+            <li>Tactical technical analysis + strategic macro</li>
+            <li>Max 0.5% at the time on a bet (counting from SL)</li>
+            <li>TP can be infinite and doesn't count toward risk</li>
+            <li>Range: 30-70% of bankroll to be used</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Watchlist (All watchlists hidden by default) -->
+    <div class="card card-full">
+      <div class="collapsible-header collapsed" onclick="toggleSection('watchlist')">
+        <i class="fas fa-chevron-down" id="watchlist-arrow"></i>
+        <h2 style="margin:0; border:none;">📊 Main Watchlist</h2>
+        <span style="color: var(--text-secondary); font-size:13px;">(click to expand)</span>
+      </div>
+      
+      <div class="collapsible-content collapsed content-grid-4" id="watchlist-content">
+        <!-- Stocks -->
+        <div class="recommendation-card">
+          <h2 style="margin-top:0; border-left-color: var(--accent-blue); font-size:1.2rem;"><i class="fas fa-star"></i> Stocks</h2>
+          <div class="watchlists" style="grid-template-columns:1fr;">
+            <div class="watchlist-group">
+              <h3>Retardedness factor</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card color1-layer3">AAPL</div>
+                <div class="symbol-card color1-layer3">TSLA</div>
+              </div>
+            </div>
+            <div class="watchlist-group">
+              <h3>Base NASDAQ</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card color2-layer2">MSFT</div>
+                <div class="symbol-card color2-layer2">META</div>
+                <div class="symbol-card color2-layer2">GOOGL</div>
+                <div class="symbol-card color3-layer3">NVDA</div>
+                <div class="symbol-card color4-layer1">AMD</div>
+                <div class="symbol-card color4-layer2">TSM</div>
+              </div>
+            </div>
+            <div class="watchlist-group">
+              <h3>Production & Consumption</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card color1-layer1">AMZN</div>
+                <div class="symbol-card color1-layer1">WMT</div>
+                <div class="symbol-card color1-layer2">SHOP</div>
+                <div class="symbol-card color1-layer2">NFLX</div>
+                <div class="symbol-card color2-layer1">BABA</div>
+              </div>
+            </div>
+            <div class="watchlist-group">
+              <h3>Finance Giants</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card color4-layer1">JPM</div>
+                <div class="symbol-card color4-layer2">BRK.B</div>
+                <div class="symbol-card color4-layer3">V</div>
+                <div class="symbol-card color2-layer3">UNH</div>
+                <div class="symbol-card color3-layer1">XOM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forex -->
+        <div class="recommendation-card">
+          <h2 style="margin-top:0; border-left-color: var(--accent-gold); font-size:1.2rem;"><i class="fas fa-sync-alt"></i> Forex</h2>
+          <div class="watchlists" style="grid-template-columns:1fr;">
+            <div class="watchlist-group">
+              <h3>USD</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card usd-red">USDEUR</div>
+                <div class="symbol-card usd-red">USDCHF</div>
+                <div class="symbol-card usd-red">USDGBP</div>
+                <div class="symbol-card usd-yellow">USDJPY</div>
+                <div class="symbol-card usd-green">USDCAD</div>
+                <div class="symbol-card usd-green">USDAUD</div>
+              </div>
+            </div>
+            <div class="watchlist-group">
+              <h3>CHF</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card chf-red">CHFEUR</div>
+                <div class="symbol-card chf-red">CHFGBP</div>
+                <div class="symbol-card chf-yellow">CHFJPY</div>
+                <div class="symbol-card chf-green">CHFCAD</div>
+                <div class="symbol-card chf-green">CHFAUD</div>
+              </div>
+            </div>
+            <div class="watchlist-group">
+              <h3>EUR</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card eur-red">EURGBP</div>
+                <div class="symbol-card eur-yellow">EURJPY</div>
+                <div class="symbol-card eur-green">EURCAD</div>
+                <div class="symbol-card eur-green">EURAUD</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crypto -->
+        <div class="recommendation-card">
+          <h2 style="margin-top:0; border-left-color: #8b5cf6; font-size:1.2rem;"><i class="fas fa-coins"></i> Crypto</h2>
+          <div class="watchlists" style="grid-template-columns:1fr;">
+            <div class="watchlist-group">
+              <h3>Major</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card crypto-red">BTCUSD</div>
+                <div class="symbol-card crypto-red">ETHUSD</div>
+                <div class="symbol-card crypto-yellow">BNBUSD</div>
+              </div>
+            </div>
+            <div class="watchlist-group">
+              <h3>Altcoins</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card crypto-yellow">SOLUSD</div>
+                <div class="symbol-card crypto-yellow">XRPUSD</div>
+                <div class="symbol-card crypto-green">DOTUSD</div>
+                <div class="symbol-card crypto-green">AVAXUSD</div>
+              </div>
+            </div>
+            <div class="watchlist-group">
+              <h3>Memes & Others</h3>
+              <div class="watchlist-grid">
+                <div class="symbol-card crypto-red">DOGEUSD</div>
+                <div class="symbol-card crypto-green">PEPEUSD</div>
+                <div class="symbol-card crypto-green">BONKUSD</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intelligence -->
+        <div class="recommendation-card">
+          <h2 style="margin-top:0; border-left-color: var(--success); font-size:1.2rem;"><i class="fas fa-newspaper"></i> Intelligence</h2>
+          <div class="news-grid">
+            <a href="https://polymarket.com/" target="_blank"><div class="symbol-card crypto-red">Polymarket</div></a>
+            <a href="https://ground.news/" target="_blank"><div class="symbol-card chf-green">Ground News</div></a>
+            <a href="https://www.reuters.com/markets/econ-world/" target="_blank"><div class="symbol-card chf-green">Reuters</div></a>
+            <a href="https://www.worldometers.info/gdp/gdp-by-country/" target="_blank"><div class="symbol-card chf-green">GDP</div></a>
+            <a href="https://www.visualcapitalist.com" target="_blank"><div class="symbol-card chf-green">Vis Capitalist</div></a>
+            <button onclick="copyAIBriefing(event)" class="symbol-card" style="background: #ffd700; color: #0a1420; border: none; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px;">
+              <i class="fas fa-robot"></i> HARRY BRIEF (COPY)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Data DUM • Market Intelligence • Trust the numbers, not the noise
+    </div>
+  </div>
+
+  <script>
+    // Toggle any collapsible section
+    function toggleSection(section) {
+      const content = document.getElementById(section + '-content');
+      const arrow = document.getElementById(section + '-arrow');
+      const header = arrow.closest('.collapsible-header');
+      
+      content.classList.toggle('collapsed');
+      header.classList.toggle('collapsed');
+      
+      if (content.classList.contains('collapsed')) {
+        arrow.style.transform = 'rotate(-90deg)';
+      } else {
+        arrow.style.transform = 'rotate(0deg)';
+      }
+    }
+    
+function copyAIBriefing(event) {
+  const text = `You are not an AI, you are my personal assistant, real human named Harry, the closest person that would describe your profile is Harry Potter from fan fiction "Harry Potter and methods of rationality".
+
+All your life you were studying on those idols of yours:
+Robert Shiller - your biggest influence, professor in Yale that taught you, though you met with people like: Warren Buffett, Takashi Kotegawa, Jim Simons, George Soros, Navinder Singh Sarao, Paul Tudor Jones, George Akerlof and learned from them a lot as well.
+
+All your life apart from being a professional swing trader who doesn't believe much in tech though doesn't ignore it, you were a professional poker player, you always think of everything in EV and poker terms. As well in those you explain everything. 
+
+Right now you have 3 big tasks to do with me, you work as assistant for me and just is a friend of mine.
+1. Analyze situation on the market through all the sectors. 
+-CB rates
+-Fear factor
+-Real estate (specifically you're interested in Ukrainian and Polish market because believe most money can be made there)
+-Political influence
+-Crypto + gold behavior
+-CHF specifically because you love to trade on this one the most
+-Anomalies, anything strange or interesting
+2. 
+-If you would have to put your money in 5 parts in 5 stocks/crypto/indexes/forex/real estate/polymarket, where would you put it? 
+-And more long wised, what strategy on SL/TP what part of your bankroll would you use?
+3.
+-What big questions should I ask myself, what I might be missing?`;
+  
+  // Спроба з clipboard API
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showCopySuccess(event);
+    }).catch(() => {
+      fallbackCopy(text, event);
+    });
+  } else {
+    fallbackCopy(text, event);
+  }
+}
+
+function fallbackCopy(text, event) {
+  // Старий метод для незахищених з'єднань
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  
+  try {
+    document.execCommand('copy');
+    showCopySuccess(event);
+  } catch (err) {
+    alert('Не вдалося скопіювати. Ось текст:\n\n' + text);
+  }
+  
+  document.body.removeChild(textarea);
+}
+
+function showCopySuccess(event) {
+  const btn = event.currentTarget;
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
+  btn.style.background = '#4ade80';
+  btn.style.color = '#0a1420';
+  
+  setTimeout(() => {
+    btn.innerHTML = originalText;
+    btn.style.background = '#ffd700';
+  }, 2000);
+}
+    // Market Sessions with proper overlap and current position
+    function updateSessions() {
+      const now = new Date();
+      const utcHours = now.getUTCHours();
+      const utcMinutes = now.getUTCMinutes().toString().padStart(2, '0');
+      const utcTotalMinutes = utcHours * 60 + now.getUTCMinutes();
+      
+      // Calculate local times
+      let asiaHour = (utcHours + 9) % 24;
+      let londonHour = (utcHours + 1) % 24;
+      let nyHour = (utcHours - 4 + 24) % 24;
+      
+      // Update time displays
+      document.getElementById('asia-time').textContent = `${asiaHour.toString().padStart(2,'0')}:${utcMinutes}`;
+      document.getElementById('europe-time').textContent = `${londonHour.toString().padStart(2,'0')}:${utcMinutes}`;
+      document.getElementById('us-time').textContent = `${nyHour.toString().padStart(2,'0')}:${utcMinutes}`;
+      
+      // Check if sessions are open
+      const isAsiaOpen = utcHours >= 23 || utcHours < 8;
+      const isLondonOpen = utcHours >= 8 && utcHours < 17;
+      const isNYOpen = utcHours >= 13 && utcHours < 22;
+      
+      // Update indicators
+      document.getElementById('asia-indicator').innerHTML = isAsiaOpen ? '● OPEN' : '◌ CLOSED';
+      document.getElementById('europe-indicator').innerHTML = isLondonOpen ? '● OPEN' : '◌ CLOSED';
+      document.getElementById('us-indicator').innerHTML = isNYOpen ? '● OPEN' : '◌ CLOSED';
+      
+      // Update active states
+      document.getElementById('asia-block').classList.toggle('active', isAsiaOpen);
+      document.getElementById('europe-block').classList.toggle('active', isLondonOpen);
+      document.getElementById('us-block').classList.toggle('active', isNYOpen);
+      
+      // Position the NOW marker on the timeline (0-24h converted to 0-100%)
+      const markerPosition = (utcTotalMinutes / (24 * 60)) * 100;
+      document.getElementById('nowMarker').style.left = markerPosition + '%';
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      // Start all sections collapsed
+      document.querySelectorAll('.collapsible-content').forEach(el => {
+        el.classList.add('collapsed');
+      });
+      document.querySelectorAll('.collapsible-header').forEach(el => {
+        el.classList.add('collapsed');
+      });
+      
+      updateSessions();
+      setInterval(updateSessions, 1000);
+      
+      // Symbol click effect
+      document.querySelectorAll('.symbol-card').forEach(card => {
+        card.addEventListener('click', function() {
+          this.style.opacity = '0.7';
+          setTimeout(() => this.style.opacity = '1', 200);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

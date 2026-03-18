@@ -1,8 +1,7 @@
 // api/data.js
 import fs from 'fs';
 import path from 'path';
-import { parse } from 'date-fns';
-import { calculateRSI, getRSIColor } from '../public/components/rsi.js';
+import { parse } from 'date-fns';;
 
 export default async function handler(req, res) {
   try {

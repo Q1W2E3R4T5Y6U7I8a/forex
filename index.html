@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FOREX</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@4.1.1"></script>
+  <link rel="stylesheet" href="./index.css">
+  <link rel="icon" href="./favicon.jpg" type="image/jpg">
+</head>
+<body>
+  <div class="nav">
+  <a href="/src/components/main.html" class="nav-link">Main</a>
+  <a href="/" class="nav-link">Analytics</a>
+  <a href="/src/components/edgeCalculator.html" class="nav-link">EV</a>
+  <a href="/src/components/cbRates.html" class="nav-link">CB Rates</a>
+  <a href="/src/components/effectivityOfAds.html" class="nav-link">ROAS/CPA</a>
+  <a href="/src/components/realEstate.html" class="nav-link">Real estate</a>
+  <a href="/src/components/polymarket.html" class="nav-link">Polymarket</a>
+  <a href="/src/components/crypto.html" class="nav-link">Crypto</a>
+</div>
+
+  <div class="container">
+    <div id="analytics"></div>
+    <div id="charts-container"></div>
+    <div id="rsi-lists"></div>
+  </div>
+
+  <footer>
+    <p>FOREX by Makar_Karma &copy; 2025</p>
+  </footer>
+
+  <script type="module" src="./index.js"></script>
+</body>
+</html>

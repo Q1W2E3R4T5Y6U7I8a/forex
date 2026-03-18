@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UA Real Estate Investment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./../../index.css">
+    <style>
+        /* Calculator Tabs */
+        .calculator-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding-bottom: 10px;
+        }
+        
+        .calc-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 30px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .calc-tab.active {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            border-color: var(--accent-gold);
+        }
+        
+        .calc-tab:hover {
+            border-color: var(--accent-gold);
+        }
+        
+        .calculator-pane {
+            display: none;
+        }
+        
+        .calculator-pane.active {
+            display: block;
+        }
+        
+        /* Appreciation slider */
+        .appreciation-slider {
+            margin: 15px 0;
+        }
+        
+        .appreciation-slider input {
+            width: 100%;
+            margin-top: 5px;
+        }
+        
+        .slider-value {
+            display: inline-block;
+            background: var(--accent-blue);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        /* Mortgage details */
+        .mortgage-detail {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="./main.html" class="nav-link">Main</a>
+            <a href="./index.html" class="nav-link">Forex</a>
+            <a href="./edgeCalculator.html" class="nav-link">EV</a>
+            <a href="./cbRates.html" class="nav-link">CB Rates</a>
+            <a href="./effectivityOfAds.html" class="nav-link">ROAS/CPA</a>
+            <a href="./realEstate.html" class="nav-link active">Real estate</a>
+            <a href="./polymarket.html" class="nav-link">Polymarket</a>
+        </div>
+
+        <h1 class="page-title">🏢 Українська нерухомість / Ukrainian Real Estate</h1>
+
+        <!-- City Selection & Filters -->
+        <div class="filters-card">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label><i class="fas fa-city"></i> Місто / City</label>
+                    <select id="city-select">
+                        <option value="10008717">Івано-Франківськ (Frankivsk)</option>
+                        <option value="10009580" selected>Київ (Kyiv)</option>
+                        <option value="10010188">Коломия (Kolomya)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-dollar-sign"></i> Ціна min ($)</label>
+                    <input type="number" id="price-min" value="7000" step="1000">
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-dollar-sign"></i> Ціна max ($)</label>
+                    <input type="number" id="price-max" value="25000" step="1000">
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-ruler-combined"></i> Ціна/м² max ($)</label>
+                    <input type="number" id="sqm-max" value="950" step="50">
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-sort"></i> Сортування</label>
+                    <select id="sort-select">
+                        <option value="price-asc">Ціна (від дешевих)</option>
+                        <option value="price-desc">Ціна (від дорогих)</option>
+                        <option value="sqm-asc">Ціна/м² (від дешевих)</option>
+                        <option value="sqm-desc">Ціна/м² (від дорогих)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button id="search-btn" class="btn-primary">
+                        <i class="fas fa-search"></i> Шукати / Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Tabs -->
+        <div class="calculator-card">
+            <div class="calculator-tabs">
+                <button class="calc-tab active" onclick="switchCalcTab('cash')">💵 Готівка / Cash</button>
+                <button class="calc-tab" onclick="switchCalcTab('yeoselya')">🏦 ЄОселя (іпотека)</button>
+                <button class="calc-tab" onclick="switchCalcTab('custom')">📝 Свій розрахунок / Custom</button>
+            </div>
+
+            <!-- CASH CALCULATOR -->
+            <div id="calc-cash" class="calculator-pane active">
+                <h2 class="card-title"><i class="fas fa-calculator"></i> Готівковий розрахунок / Cash Investment</h2>
+                <div class="calculator-grid">
+                    <div class="calc-inputs">
+                        <div class="form-group">
+                            <label>Ціна квартири ($) / Property price</label>
+                            <input type="number" id="cash-price" value="45000" step="1000">
+                        </div>
+                        <div class="form-group">
+                            <label>Площа (м²) / Area</label>
+                            <input type="number" id="cash-area" value="40" step="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Ціна оренди ($/міс) / Monthly rent</label>
+                            <input type="number" id="cash-rent" value="500" step="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Ремонт та обслуговування ($/рік) / Maintenance</label>
+                            <input type="number" id="cash-maintenance" value="300" step="100">
+                        </div>
+                        <div class="form-group appreciation-slider">
+                            <label>Очікуване зростання ціни (% на рік) <span id="cash-appreciation-value" class="slider-value">5%</span></label>
+                            <input type="range" id="cash-appreciation" min="-5" max="15" value="5" step="0.5" oninput="updateCashAppreciation()">
+                        </div>
+                        <button onclick="calculateCash()" class="btn-calc">
+                            <i class="fas fa-chart-line"></i> Розрахувати / Calculate
+                        </button>
+                    </div>
+                    
+                    <div class="calc-results" id="cash-results">
+                        <h3>Результати / Results</h3>
+                        <div class="result-item">
+                            <span>Ціна за м²:</span>
+                            <span id="cash-price-per-sqm">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Річний орендний дохід:</span>
+                            <span id="cash-rental-income">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Річні витрати:</span>
+                            <span id="cash-expenses">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Чистий орендний дохід:</span>
+                            <span id="cash-net-rental">$0</span>
+                        </div>
+                        <div class="result-item" style="border-top: 1px solid rgba(255,215,0,0.2); margin-top: 10px; padding-top: 10px;">
+                            <span>Річне зростання вартості:</span>
+                            <span id="cash-appreciation-gain">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Загальний річний дохід:</span>
+                            <span id="cash-total-income">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>ROI (Cash-on-cash):</span>
+                            <span id="cash-roi">0%</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Cap Rate (оренда):</span>
+                            <span id="cash-cap-rate">0%</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Окупність (років):</span>
+                            <span id="cash-payback">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ЄОСЕЛЯ CALCULATOR (with defaults) -->
+            <div id="calc-yeoselya" class="calculator-pane">
+                <h2 class="card-title"><i class="fas fa-calculator"></i> ЄОселя (іпотека) / YeOselya Mortgage</h2>
+                <div class="mortgage-detail">* Базова ставка 3% на 10 років, далі 6%</div>
+                <div class="calculator-grid">
+                    <div class="calc-inputs">
+                        <div class="form-group">
+                            <label>Вартість квартири (грн) / Property price (UAH)</label>
+                            <input type="number" id="yeoselya-price" value="2000000" step="100000">
+                            <div class="mortgage-detail">Мін 100 тис. грн, Макс 5 млн грн</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Перший внесок (%) / Down payment</label>
+                            <input type="number" id="yeoselya-down" value="20" min="20" step="5">
+                            <div class="mortgage-detail">Мінімум 20%</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Термін кредиту (років) / Loan term</label>
+                            <select id="yeoselya-term">
+                                <option value="5">5 років</option>
+                                <option value="10">10 років</option>
+                                <option value="15">15 років</option>
+                                <option value="20" selected>20 років</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ставка до 10 років (%) / Rate first 10 years</label>
+                            <input type="number" id="yeoselya-rate1" value="3" step="0.1" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Ставка після 10 років (%) / Rate after 10 years</label>
+                            <input type="number" id="yeoselya-rate2" value="6" step="0.1" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Страхування (% на рік) / Insurance</label>
+                            <input type="number" id="yeoselya-insurance" value="1.25" step="0.25">
+                            <div class="mortgage-detail">0.25% або 1.25% (з воєнними ризиками)</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Комісія за видачу (%) / Origination fee</label>
+                            <input type="number" id="yeoselya-fee" value="1" step="0.1" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Додаткові витрати (грн) / Additional costs</label>
+                            <input type="number" id="yeoselya-extra" value="15500" step="1000">
+                            <div class="mortgage-detail">Нотаріус 12 тис + оцінка 3.5 тис</div>
+                        </div>
+                        <button onclick="calculateYeoselya()" class="btn-calc">
+                            <i class="fas fa-chart-line"></i> Розрахувати / Calculate
+                        </button>
+                    </div>
+                    
+                    <div class="calc-results" id="yeoselya-results">
+                        <h3>Результати / Results</h3>
+                        <div class="result-item">
+                            <span>Сума кредиту:</span>
+                            <span id="yeoselya-loan">0 грн</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Перший внесок:</span>
+                            <span id="yeoselya-down-amount">0 грн</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Щомісячний платіж (1-10 р):</span>
+                            <span id="yeoselya-payment1">0 грн</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Щомісячний платіж (11+ р):</span>
+                            <span id="yeoselya-payment2">0 грн</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Страхування /міс:</span>
+                            <span id="yeoselya-ins-month">0 грн</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Разовий платіж (комісії):</span>
+                            <span id="yeoselya-upfront">0 грн</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Загальна переплата:</span>
+                            <span id="yeoselya-total-interest">0 грн</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CUSTOM MORTGAGE CALCULATOR -->
+            <div id="calc-custom" class="calculator-pane">
+                <h2 class="card-title"><i class="fas fa-calculator"></i> Свій розрахунок / Custom Mortgage</h2>
+                <div class="calculator-grid">
+                    <div class="calc-inputs">
+                        <div class="form-group">
+                            <label>Вартість квартири ($) / Property price</label>
+                            <input type="number" id="custom-price" value="45000" step="1000">
+                        </div>
+                        <div class="form-group">
+                            <label>Перший внесок (%) / Down payment</label>
+                            <input type="number" id="custom-down" value="20" step="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Ставка по кредиту (%) / Interest rate</label>
+                            <input type="number" id="custom-rate" value="5" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Термін кредиту (років) / Loan term</label>
+                            <select id="custom-term">
+                                <option value="5">5 років</option>
+                                <option value="10">10 років</option>
+                                <option value="15">15 років</option>
+                                <option value="20" selected>20 років</option>
+                                <option value="25">25 років</option>
+                                <option value="30">30 років</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Щомісячний дохід від оренди ($) / Rental income</label>
+                            <input type="number" id="custom-rent" value="500" step="50">
+                        </div>
+                        <div class="form-group appreciation-slider">
+                            <label>Очікуване зростання ціни (% на рік) <span id="custom-appreciation-value" class="slider-value">5%</span></label>
+                            <input type="range" id="custom-appreciation" min="-5" max="15" value="5" step="0.5" oninput="updateCustomAppreciation()">
+                        </div>
+                        <button onclick="calculateCustom()" class="btn-calc">
+                            <i class="fas fa-chart-line"></i> Розрахувати / Calculate
+                        </button>
+                    </div>
+                    
+                    <div class="calc-results" id="custom-results">
+                        <h3>Результати / Results</h3>
+                        <div class="result-item">
+                            <span>Сума кредиту:</span>
+                            <span id="custom-loan">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Перший внесок:</span>
+                            <span id="custom-down-amount">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Щомісячний платіж:</span>
+                            <span id="custom-payment">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Чистий дохід після кредиту:</span>
+                            <span id="custom-net">$0</span>
+                        </div>
+                        <div class="result-item" style="border-top: 1px solid rgba(255,215,0,0.2); margin-top: 10px; padding-top: 10px;">
+                            <span>ROI на вкладений капітал:</span>
+                            <span id="custom-roi">0%</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Коефіцієнт покриття боргу:</span>
+                            <span id="custom-dscr">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- City Stats -->
+        <div class="stats-grid">
+            <div class="stat-card" id="kyiv-stats">
+                <h3><i class="fas fa-city"></i> Київ / Kyiv</h3>
+                <div class="stat-value">ID: 10009580</div>
+                <div class="stat-detail">Середня ціна: $1,200/м²</div>
+                <div class="stat-detail">Дохідність: 5-7%</div>
+            </div>
+            <div class="stat-card" id="frankivsk-stats">
+                <h3><i class="fas fa-city"></i> Івано-Франківськ</h3>
+                <div class="stat-value">ID: 10008717</div>
+                <div class="stat-detail">Середня ціна: $850/м²</div>
+                <div class="stat-detail">Дохідність: 6-8%</div>
+            </div>
+            <div class="stat-card" id="kolomya-stats">
+                <h3><i class="fas fa-city"></i> Коломия / Kolomya</h3>
+                <div class="stat-value">ID: 10010188</div>
+                <div class="stat-detail">Середня ціна: $700/м²</div>
+                <div class="stat-detail">Дохідність: 7-9%</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Trust only numbers</p>
+        </div>
+    </div>
+
+    <script src="realEstate.js"></script>
+</body>
+</html>
