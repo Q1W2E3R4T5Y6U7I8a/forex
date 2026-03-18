@@ -1,0 +1,24 @@
+{
+  "homepage": "https://Q1W2E3R4T5Y6U7I8a.github.io/forex",
+  "name": "forex",
+  "version": "1.0.0",
+  "description": "Forex dashboard",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 3000",
+    "deploy": "gh-pages -d ."
+  },
+  "dependencies": {
+    "chart.js": "^4.5.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-chart-financial": "^0.2.1",
+    "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "http-server": "^14.1.1"
+  },
+  "keywords": ["forex", "charts", "trading"],
+  "author": "Makar_Karma",
+  "license": "ISC"
+}
